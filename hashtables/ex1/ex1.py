@@ -4,16 +4,20 @@ def get_indices_of_item_weights(weights, length, limit):
     """
     # Your code here
     cache = {}
-    x = 0
-    y = 0
+    results = []
+    j = None
     for idx, val in enumerate(weights):
-        cache[val] = idx
+        if val in cache:
+            j = cache[val]
+            cache[val] = [j, idx]
+        else:
+            cache[val] = idx
     print("cache:", cache)
     for idx, val in enumerate(weights):
         if (limit - val) in cache and (limit - val) != idx:
-            x = max(cache[limit - val], idx)
-            y = min(cache[limit - val], idx)
-    if x == 0 and y == 0:
+            results.append(idx)
+    if results == []:
         return None
-    print(x, y)
-    return (x, y)
+    results.sort(reverse=True)
+    print(results)
+    return results
